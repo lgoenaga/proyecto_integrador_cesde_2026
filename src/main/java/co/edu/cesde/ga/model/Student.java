@@ -1,16 +1,26 @@
 package co.edu.cesde.ga.model;
 
-public class Student extends Person{
+public class Student extends Person {
 
+    private Long studentId;
     private String birthDate;
 
     public Student() {
         super();
     }
 
-    public Student(String id, String userId, String code, String documentNumber, String firstName, String lastName, String status, String birthDate) {
-        super(id, userId, code, documentNumber, firstName, lastName, status);
+    public Student(Long studentId, Long userId, String documentType, String documentNumber, String firstName, String lastName, String status, String birthDate) {
+        super(userId, documentType, documentNumber, firstName, lastName, status);
+        this.studentId = studentId;
         this.birthDate = birthDate;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
     public String getBirthDate() {
@@ -24,9 +34,9 @@ public class Student extends Person{
     @Override
     public String toString() {
         return "Student{" +
-                "id='" + getId() + '\'' +
-                ", userId='" + getUserId() + '\'' +
-                ", code='" + getCode() + '\'' +
+                "studentId=" + studentId +
+                ", userId=" + getUserId() +
+                ", documentType='" + getDocumentType() + '\'' +
                 ", documentNumber='" + getDocumentNumber() + '\'' +
                 ", firstName='" + getFirstName() + '\'' +
                 ", lastName='" + getLastName() + '\'' +
