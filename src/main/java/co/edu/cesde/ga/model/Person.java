@@ -1,50 +1,40 @@
 package co.edu.cesde.ga.model;
 
-public class Person {
+public abstract class Person {
 
-    private String id;
-    private String userId;
-    private String code;
+    private Long userId;
+    private String documentType;
     private String documentNumber;
     private String firstName;
     private String lastName;
     private String status;
 
-    public Person() {
+    protected Person() {
     }
 
-    public Person(String id, String userId, String code, String documentNumber, String firstName, String lastName, String status) {
-        this.id = id;
+    protected Person(Long userId, String documentType, String documentNumber, String firstName, String lastName, String status) {
         this.userId = userId;
-        this.code = code;
+        this.documentType = documentType;
         this.documentNumber = documentNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getCode() {
-        return code;
+    public String getDocumentType() {
+        return documentType;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
     }
 
     public String getDocumentNumber() {
@@ -82,9 +72,8 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
-                ", code='" + code + '\'' +
+                "userId=" + userId +
+                ", documentType='" + documentType + '\'' +
                 ", documentNumber='" + documentNumber + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -92,5 +81,3 @@ public class Person {
                 '}';
     }
 }
-
-
