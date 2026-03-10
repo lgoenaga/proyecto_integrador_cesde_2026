@@ -1,102 +1,287 @@
 package co.edu.cesde.ga.app;
 
-import co.edu.cesde.ga.model.Person;
 import co.edu.cesde.ga.model.Student;
-import co.edu.cesde.ga.model.Teacher;
+import co.edu.cesde.ga.repository.StudentRepository;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private static final StudentRepository STUDENT_REPOSITORY = new StudentRepository();
+
     public static void main(String[] args) {
+        showMainMenu();
+    }
 
-        Person person = new Person();
+    private static void showMainMenu() {
+        int option;
 
-        person.setId("student-001");
-        person.setUserId("user-001");
-        person.setCode("123456");
-        person.setDocumentNumber("1234567890");
-        person.setFirstName("John");
-        person.setLastName("Doe");
-        person.setStatus("ACTIVE");
+        do {
+            System.out.println("\n===== SISTEMA ACADEMICO CESDE 2026 =====");
+            System.out.println("1. Gestion de estudiantes");
+            System.out.println("2. Gestion de profesores");
+            System.out.println("3. Gestion de usuarios");
+            System.out.println("4. Gestion de roles");
+            System.out.println("5. Gestion de programas");
+            System.out.println("6. Gestion de materias");
+            System.out.println("7. Gestion de periodos");
+            System.out.println("8. Gestion de grupos");
+            System.out.println("9. Gestion de inscripciones");
+            System.out.println("10. Gestion de calificaciones");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opcion: ");
 
-        System.out.println("ID: " + person.getId());
-        System.out.println("User ID: " + person.getUserId());
-        System.out.println("Code: " + person.getCode());
-        System.out.println("Document Number: " + person.getDocumentNumber());
-        System.out.println("First Name: " + person.getFirstName());
-        System.out.println("Last Name: " + person.getLastName());
-        System.out.println("Status: " + person.getStatus());
+            option = readInt();
 
-        Person person2 = new Person("student-002", "user-002", "654321", "0987654321", "Jane", "Smith", "INACTIVE");
+            switch (option) {
+                case 1 -> showStudentMenu();
+                case 2, 3, 4, 5, 6, 7, 8, 9, 10 -> System.out.println("Modulo pendiente por implementar.");
+                case 0 -> System.out.println("Saliendo del sistema...");
+                default -> System.out.println("Opcion invalida.");
+            }
+        } while (option != 0);
+    }
 
-        System.out.println("ID: " + person2.getId());
-        System.out.println("User ID: " + person2.getUserId());
-        System.out.println("Code: " + person2.getCode());
-        System.out.println("Document Number: " + person2.getDocumentNumber());
-        System.out.println("First Name: " + person2.getFirstName());
-        System.out.println("Last Name: " + person2.getLastName());
-        System.out.println("Status: " + person2.getStatus());
+    private static void showStudentMenu() {
+        int option;
 
-        Teacher teacher = new Teacher();
+        do {
+            System.out.println("\n===== SUBMENU ESTUDIANTES =====");
+            System.out.println("1. Crear estudiante");
+            System.out.println("2. Listar estudiantes");
+            System.out.println("3. Buscar estudiante por ID");
+            System.out.println("4. Buscar estudiante por numero de documento");
+            System.out.println("5. Actualizar estudiante");
+            System.out.println("6. Eliminar estudiante");
+            System.out.println("7. Total de estudiantes");
+            System.out.println("0. Volver al menu principal");
+            System.out.print("Seleccione una opcion: ");
 
-        teacher.setId("teacher-001");
-        teacher.setUserId("user-003");
-        teacher.setCode("789012");
-        teacher.setDocumentNumber("1122334455");
-        teacher.setFirstName("Alice");
-        teacher.setLastName("Johnson");
-        teacher.setStatus("ACTIVE");
+            option = readInt();
 
-        System.out.println("ID: " + teacher.getId());
-        System.out.println("User ID: " + teacher.getUserId());
-        System.out.println("Code: " + teacher.getCode());
-        System.out.println("Document Number: " + teacher.getDocumentNumber());
-        System.out.println("First Name: " + teacher.getFirstName());
-        System.out.println("Last Name: " + teacher.getLastName());
-        System.out.println("Status: " + teacher.getStatus());
+            switch (option) {
+                case 1 -> createStudent();
+                case 2 -> listStudents();
+                case 3 -> findStudentById();
+                case 4 -> findStudentByDocumentNumber();
+                case 5 -> updateStudent();
+                case 6 -> deleteStudent();
+                case 7 -> System.out.println("Total estudiantes: " + STUDENT_REPOSITORY.count());
+                case 0 -> System.out.println("Regresando al menu principal...");
+                default -> System.out.println("Opcion invalida.");
+            }
+        } while (option != 0);
+    }
 
-        Teacher teacher2 = new Teacher("teacher-002", "user-004", "210987", "5544332211", "Bob", "Williams", "INACTIVE");
+    private static void createStudent() {
+        System.out.println("\n--- Crear estudiante ---");
 
-        System.out.println("ID: " + teacher2.getId());
-        System.out.println("User ID: " + teacher2.getUserId());
-        System.out.println("Code: " + teacher2.getCode());
-        System.out.println("Document Number: " + teacher2.getDocumentNumber());
-        System.out.println("First Name: " + teacher2.getFirstName());
-        System.out.println("Last Name: " + teacher2.getLastName());
-        System.out.println("Status: " + teacher2.getStatus());
+        String documentType = readRequiredString("Tipo de documento (CC/TI/PAS): ");
+        String documentNumber = readRequiredString("Numero de documento: ");
 
-        Student student = new Student();
+        if (STUDENT_REPOSITORY.existsByDocumentNumber(documentNumber)) {
+            System.out.println("Ya existe un estudiante con ese numero de documento.");
+            return;
+        }
 
-        student.setId("student-003");
-        student.setUserId("user-005");
-        student.setCode("345678");
-        student.setDocumentNumber("6677889900");
-        student.setFirstName("Charlie");
-        student.setLastName("Brown");
-        student.setStatus("ACTIVE");
-        student.setBirthDate("2000-01-01");
+        String firstName = readRequiredString("Nombres: ");
+        String lastName = readRequiredString("Apellidos: ");
+        String birthDate = readRequiredString("Fecha de nacimiento (YYYY-MM-DD): ");
+        String status = readRequiredString("Estado: ");
+        Long userId = readOptionalLong("User ID (opcional, Enter para omitir): ");
 
-        System.out.println("ID: " + student.getId());
-        System.out.println("User ID: " + student.getUserId());
-        System.out.println("Code: " + student.getCode());
-        System.out.println("Document Number: " + student.getDocumentNumber());
-        System.out.println("First Name: " + student.getFirstName());
-        System.out.println("Last Name: " + student.getLastName());
-        System.out.println("Status: " + student.getStatus());
-        System.out.println("Birth Date: " + student.getBirthDate());
+        Student student = new Student(null, userId, documentType, documentNumber, firstName, lastName, status, birthDate);
+        Student created = STUDENT_REPOSITORY.create(student);
 
-        Student student2 = new Student("student-004", "user-006", "876543", "0099887766", "David", "Smith", "INACTIVE", "1999-12-31");
+        if (created == null) {
+            System.out.println("No fue posible crear el estudiante.");
+            return;
+        }
 
-        System.out.println("ID: " + student2.getId());
-        System.out.println("User ID: " + student2.getUserId());
-        System.out.println("Code: " + student2.getCode());
-        System.out.println("Document Number: " + student2.getDocumentNumber());
-        System.out.println("First Name: " + student2.getFirstName());
-        System.out.println("Last Name: " + student2.getLastName());
-        System.out.println("Status: " + student2.getStatus());
-        System.out.println("Birth Date: " + student2.getBirthDate());
+        System.out.println("Estudiante creado correctamente: ");
+        System.out.println(created);
+    }
 
+    private static void listStudents() {
+        System.out.println("\n--- Lista de estudiantes ---");
+        List<Student> students = STUDENT_REPOSITORY.findAll();
 
+        if (students.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+            return;
+        }
 
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
 
+    private static void findStudentById() {
+        System.out.println("\n--- Buscar estudiante por ID ---");
+        Long studentId = readLong("Student ID: ");
+        if (studentId == null) {
+            System.out.println("ID invalido.");
+            return;
+        }
+
+        Student student = STUDENT_REPOSITORY.findById(studentId);
+        if (student == null) {
+            System.out.println("No se encontro estudiante con ese ID.");
+            return;
+        }
+
+        System.out.println(student);
+    }
+
+    private static void findStudentByDocumentNumber() {
+        System.out.println("\n--- Buscar estudiante por documento ---");
+        String documentNumber = readRequiredString("Numero de documento: ");
+        Student student = STUDENT_REPOSITORY.findByDocumentNumber(documentNumber);
+
+        if (student == null) {
+            System.out.println("No se encontro estudiante con ese documento.");
+            return;
+        }
+
+        System.out.println(student);
+    }
+
+    private static void updateStudent() {
+        System.out.println("\n--- Actualizar estudiante ---");
+        Long studentId = readLong("Student ID del estudiante a actualizar: ");
+        if (studentId == null) {
+            System.out.println("ID invalido.");
+            return;
+        }
+
+        Student student = STUDENT_REPOSITORY.findById(studentId);
+        if (student == null) {
+            System.out.println("No existe un estudiante con ese ID.");
+            return;
+        }
+
+        System.out.println("Presione Enter para conservar el valor actual.");
+
+        String documentType = readOptionalString("Tipo de documento actual [" + student.getDocumentType() + "]: ");
+        if (!documentType.isBlank()) {
+            student.setDocumentType(documentType);
+        }
+
+        String documentNumber = readOptionalString("Numero de documento actual [" + student.getDocumentNumber() + "]: ");
+        if (!documentNumber.isBlank() && !documentNumber.equals(student.getDocumentNumber())
+                && STUDENT_REPOSITORY.existsByDocumentNumber(documentNumber)) {
+            System.out.println("Ya existe otro estudiante con ese numero de documento.");
+            return;
+        }
+        if (!documentNumber.isBlank()) {
+            student.setDocumentNumber(documentNumber);
+        }
+
+        String firstName = readOptionalString("Nombres actuales [" + student.getFirstName() + "]: ");
+        if (!firstName.isBlank()) {
+            student.setFirstName(firstName);
+        }
+
+        String lastName = readOptionalString("Apellidos actuales [" + student.getLastName() + "]: ");
+        if (!lastName.isBlank()) {
+            student.setLastName(lastName);
+        }
+
+        String birthDate = readOptionalString("Fecha de nacimiento actual [" + student.getBirthDate() + "]: ");
+        if (!birthDate.isBlank()) {
+            student.setBirthDate(birthDate);
+        }
+
+        String status = readOptionalString("Estado actual [" + student.getStatus() + "]: ");
+        if (!status.isBlank()) {
+            student.setStatus(status);
+        }
+
+        Long userId = readOptionalLongWithCurrent("User ID actual [" + (student.getUserId() == null ? "null" : student.getUserId()) + "] (Enter conserva, 0 limpia): ");
+        if (userId != Long.MIN_VALUE) {
+            student.setUserId(userId == 0L ? null : userId);
+        }
+
+        if (STUDENT_REPOSITORY.update(student)) {
+            System.out.println("Estudiante actualizado correctamente.");
+            System.out.println(student);
+        } else {
+            System.out.println("No fue posible actualizar el estudiante.");
+        }
+    }
+
+    private static void deleteStudent() {
+        System.out.println("\n--- Eliminar estudiante ---");
+        Long studentId = readLong("Student ID del estudiante a eliminar: ");
+        if (studentId == null) {
+            System.out.println("ID invalido.");
+            return;
+        }
+
+        if (STUDENT_REPOSITORY.delete(studentId)) {
+            System.out.println("Estudiante eliminado correctamente.");
+        } else {
+            System.out.println("No existe un estudiante con ese ID.");
+        }
+    }
+
+    private static int readInt() {
+        try {
+            return Integer.parseInt(SCANNER.nextLine().trim());
+        } catch (NumberFormatException exception) {
+            return -1;
+        }
+    }
+
+    private static Long readLong(String message) {
+        System.out.print(message);
+        String value = SCANNER.nextLine().trim();
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    private static Long readOptionalLong(String message) {
+        System.out.print(message);
+        String value = SCANNER.nextLine().trim();
+        if (value.isBlank()) {
+            return null;
+        }
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
+
+    private static Long readOptionalLongWithCurrent(String message) {
+        System.out.print(message);
+        String value = SCANNER.nextLine().trim();
+        if (value.isBlank()) {
+            return Long.MIN_VALUE;
+        }
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException exception) {
+            return Long.MIN_VALUE;
+        }
+    }
+
+    private static String readRequiredString(String message) {
+        String value;
+        do {
+            System.out.print(message);
+            value = SCANNER.nextLine().trim();
+        } while (value.isBlank());
+        return value;
+    }
+
+    private static String readOptionalString(String message) {
+        System.out.print(message);
+        return SCANNER.nextLine().trim();
     }
 }
