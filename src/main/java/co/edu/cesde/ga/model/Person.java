@@ -9,10 +9,10 @@ public abstract class Person {
     private String lastName;
     private String status;
 
-    public Person() {
+    protected Person() {
     }
 
-    public Person(Long userId, String documentType, String documentNumber, String firstName, String lastName, String status) {
+    protected Person(Long userId, String documentType, String documentNumber, String firstName, String lastName, String status) {
         this.userId = userId;
         this.documentType = documentType;
         this.documentNumber = documentNumber;

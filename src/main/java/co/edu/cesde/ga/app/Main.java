@@ -92,7 +92,7 @@ public class Main {
         String status = readRequiredString("Estado: ");
         Long userId = readOptionalLong("User ID (opcional, Enter para omitir): ");
 
-        Student student = new Student(null, userId, documentType, documentNumber, firstName, lastName, status, birthDate);
+        Student student = new Student(userId, documentType, documentNumber, firstName, lastName, status, birthDate);
         Student created = STUDENT_REPOSITORY.create(student);
 
         if (created == null) {
