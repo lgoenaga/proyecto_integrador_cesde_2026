@@ -2,7 +2,7 @@ package co.edu.cesde.ga.model;
 
 public class User {
 
-    private String userId;
+    private Long userId;
     private String username;
     private String email;
     private String passwordHash;
@@ -12,7 +12,7 @@ public class User {
     public User() {
     }
 
-    public User(String userId, String username, String email, String passwordHash, String status, String createdAt) {
+    public User(Long userId, String username, String email, String passwordHash, String status, String createdAt) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -21,11 +21,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -72,7 +72,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
