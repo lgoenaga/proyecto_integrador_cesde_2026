@@ -45,6 +45,15 @@ repository/
 
 En esta fase la interfaz se conserva igual.
 
+### Aclaración importante del contrato
+
+En `StudentRepository` solo dejamos métodos que realmente corresponden al modelo actual de `Student`.
+
+- **No** agregamos `findByEmail(...)` porque `email` pertenece a `User`, no a `Student`.
+- **No** agregamos `findByName(...)` porque en el modelo tenemos `firstName` y `lastName` por separado, y además esa búsqueda podría devolver varios estudiantes.
+
+Así el ejercicio queda más claro para el estudiante y el contrato del repositorio refleja exactamente el CRUD que sí estamos trabajando en memoria.
+
 ### Código completo de `StudentRepository.java`
 
 ```java
@@ -85,6 +94,7 @@ Aquí movemos la lógica que antes estaba acoplada a una sola clase.
 - el `ArrayList` queda aislado en la implementación concreta
 - el autoincremental simulado también queda aislado
 - más adelante se puede reemplazar esta clase por una implementación JPA
+- la clase concreta cumple el contrato usando `implements StudentRepository`
 
 ### Código completo de `StudentRepositoryInMemory.java`
 
@@ -560,4 +570,14 @@ Al terminar esta fase el proyecto queda mucho mejor preparado para seguir crecie
 - existe una implementación en memoria separada
 - la interfaz se mantiene estable
 - más adelante se podrá crear `StudentRepositoryJpa` con menos cambios
+
+### Nota adicional sobre el modelo
+
+Como ajuste de consistencia del dominio, `userId` se maneja como `Long` en:
+
+- `Person`
+- `User`
+- `UserRole`
+
+Esto ayuda a que el estudiante vea la misma idea de identificador en las clases relacionadas y evita confusiones cuando más adelante se pasen estas clases a entidades JPA/Hibernate.
 
