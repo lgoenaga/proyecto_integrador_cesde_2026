@@ -23,14 +23,14 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "teacherId=" + teacherId +
-                ", userId=" + getUserId() +
-                ", documentType='" + getDocumentType() + '\'' +
-                ", documentNumber='" + getDocumentNumber() + '\'' +
-                ", firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
-                ", status='" + getStatus() + '\'' +
+        return "Profesor{" +
+                "teacherId= " + teacherId +
+                ", userId= " + getUserId() +
+                ", documentType= '" + getDocumentType() + '\'' +
+                ", documentNumber= '" + getDocumentNumber() + '\'' +
+                ", firstName= '" + getFirstName() + '\'' +
+                ", lastName= '" + getLastName() + '\'' +
+                ", status= '" + getStatus() + '\'' +
                 '}';
     }
 }

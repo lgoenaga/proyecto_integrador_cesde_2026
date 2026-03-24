@@ -1,5 +1,6 @@
 package co.edu.cesde.ga.app;
 
+import co.edu.cesde.ga.model.Person;
 import co.edu.cesde.ga.model.Student;
 import co.edu.cesde.ga.repository.StudentRepository;
 import co.edu.cesde.ga.repository.impl.StudentRepositoryInMemory;
@@ -87,13 +88,15 @@ public class Main {
             return;
         }
 
+
         String firstName = readRequiredString("Nombres: ");
         String lastName = readRequiredString("Apellidos: ");
         String birthDate = readRequiredString("Fecha de nacimiento (YYYY-MM-DD): ");
         String status = readRequiredString("Estado: ");
-        Long userId = readOptionalLong("User ID (opcional, Enter para omitir): ");
+        Long userId = readOptionalLong  ("User ID (opcional, Enter para omitir): ");
+        Long studentId = readLong("Student ID (opcional, Enter para autogenerar): ");
 
-        Student student = new Student(userId, documentType, documentNumber, firstName, lastName, status, birthDate);
+        Student student = new Student(studentId, userId, documentType, documentNumber, firstName, lastName, status, birthDate);
         Student created = studentRepository.create(student);
 
         if (created == null) {

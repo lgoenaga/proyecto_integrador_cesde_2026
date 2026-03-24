@@ -9,9 +9,10 @@ public class Student extends Person {
         super();
     }
 
-    public Student(Long userId, String documentType, String documentNumber, String firstName, String lastName, String status, String birthDate) {
+    public Student(Long studentId, Long userId, String documentType, String documentNumber, String firstName, String lastName, String status, String birthDate) {
         super(userId, documentType, documentNumber, firstName, lastName, status);
         this.birthDate = birthDate;
+        this.studentId = studentId;
     }
 
     public Long getStudentId() {
@@ -32,15 +33,14 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "studentId=" + studentId +
-                ", userId=" + getUserId() +
-                ", documentType='" + getDocumentType() + '\'' +
-                ", documentNumber='" + getDocumentNumber() + '\'' +
-                ", firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
-                ", birthDate='" + birthDate + '\'' +
-                ", status='" + getStatus() + '\'' +
-                '}';
+        return "Estudiante { " +
+                "studentId= " + getStudentId() + '\'' +
+                "userId= " + getUserId() + '\n' +
+                "documentType= " + getDocumentType() + '\n' +
+                "documentNumber= " + getDocumentNumber() + '\n' +
+                "Names= " + getFirstName() + ' ' +  getLastName() + '\n' +
+                "birthDate= " + getBirthDate() + '\n' +
+                "status= " + getStatus() + '\n' +
+                " }";
     }
 }
