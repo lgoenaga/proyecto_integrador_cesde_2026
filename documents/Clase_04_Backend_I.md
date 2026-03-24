@@ -45,15 +45,6 @@ repository/
 
 En esta fase la interfaz se conserva igual.
 
-### Aclaración importante del contrato
-
-En `StudentRepository` solo dejamos métodos que realmente corresponden al modelo actual de `Student`.
-
-- **No** agregamos `findByEmail(...)` porque `email` pertenece a `User`, no a `Student`.
-- **No** agregamos `findByName(...)` porque en el modelo tenemos `firstName` y `lastName` por separado, y además esa búsqueda podría devolver varios estudiantes.
-
-Así el ejercicio queda más claro para el estudiante y el contrato del repositorio refleja exactamente el CRUD que sí estamos trabajando en memoria.
-
 ### Código completo de `StudentRepository.java`
 
 ```java
